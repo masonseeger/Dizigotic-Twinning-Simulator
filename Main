@@ -3,34 +3,48 @@ public class Main {
 
 	public static void main(String[] args) {
 		Woman W = new Woman();
-		
-		
+				
 		for (int i = W.age; i<W.ageOfMeno; i++)
 		{
 			W.changeProb();
 			W.isMommyDead();
+			for (Child T : W.children)
+			{
+				if (T.age<180 && !T.isDead)
+				{
+				T.age++;
+				T.isChildDead();
+				}
+				else if (T.age == 180 && !T.isDead)
+				{
+					T.endChild = 1;
+				}
+				else
+				{}
+			}
 			if(W.isDead)
 			{
 				break;
 			}
 			else if(W.gotPregers())
 			{
-				if(W.singleO)
+				if(W.singleO)//This is the only part that is right, change double o section
 				{
 					Child C = new Child();
+					W.children.add(C);
 					int foetusAge = 0;
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						C.isChildDead();
-						if (foetusAge < 8)
+						W.children.get(W.children.size()).isFoetusDead();
+						if (foetusAge > 8)
 						{
 							W.childBirth();
-							C.childBirth();
+							W.children.get(W.children.size()).childBirth();
 						}
 						if(W.isDead)
 							break;
-						else if (C.isDead)
+						else if (W.children.get(W.children.size()).isDead)
 							break;
 						
 						foetusAge++;
@@ -64,7 +78,7 @@ public class Main {
 							C2.isChildDead();
 						}
 						
-						if (foetusAge < 8)
+						if (foetusAge > 8)
 							W.childBirth();
 						if(W.isDead)
 							break;
@@ -78,7 +92,11 @@ public class Main {
 				}
 			}
 		}
-
+		//at some point make a loop that will run all the children 
+		//who are alive and not 15 after the mom hits meno or dies.
+		System.out.println(W);
 	}
+	
+	
 
 }
