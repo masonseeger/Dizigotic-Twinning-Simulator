@@ -43,7 +43,7 @@ public class Woman {
 	//tells if mother has died of natural causes
 	public void isMommyDead()
 	{
-		int rn = rand.nextInt(10000);
+		int rn = rand.nextInt(10000) + 1;
 		if (rn<25)
 			isDead=true;
 	}
