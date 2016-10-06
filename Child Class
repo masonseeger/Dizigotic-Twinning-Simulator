@@ -11,7 +11,6 @@ Random rand = new Random();
 public Child()
 {
 	age = 0;
-	pOfDeath = 0;
 	endChild = 0;
 }
 
@@ -19,25 +18,49 @@ public Child()
 //There are different mortality rates for different age groups
 public void isChildDead()
 {
-	int rn = rand.nextInt(1000) + 1;
-	if (age > 12 && age < 48)
+	if (isDead)
 	{
-		if (rn < 160)
-			isDead = true;
-		else 
-			isDead = false;
+		
 	}
+	else
+		{
+		int rn = rand.nextInt(1000) + 1;
+		if (age > 12 && age < 48)
+		{
+			if (rn < 160)
+				isDead = true;
+			else 
+			{
+				isDead = false;
+				age++;
+			}
+		}
 	
-	else if (age > 48 && age < 180)
-	{
-		if (rn < 13)
-			isDead = true;
-		else
-			isDead = false;
+		else if (age > 48 && age < 180)
+		{
+			if (rn < 13)
+				isDead = true;
+			else
+			{
+				isDead = false;
+				age++;
+			}
+		}
 	}
 }
+//checks to see if the foetus spontaniously aborts
+public void isFoetusDead()
+{
+	int rnd = rand.nextInt(100)+1;
+	if (rnd<15 )
+		isDead=true;
+	else
+		isDead=false;
+	
+	
+}
 
-//Checks if the child survied the birthing process
+//Checks if the child survived the birthing process
 //Changes isDead if the child dies
 public void childBirth()
 {
