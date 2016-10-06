@@ -1,12 +1,13 @@
 import java.util.Random;
+import java.util.ArrayList;
 
 //This is the class objectifying women.
 //It will show the amount of children the mother 
 //raises and the statistics surrounding that.
 public class Woman {
 	Random rand = new Random();
+	ArrayList<Child> children = new ArrayList<Child>();
 	int age;
-	int numKids;
 	double pSOvu;
 	double pDOvu;
 	double pLb;
@@ -24,7 +25,6 @@ public class Woman {
 	public Woman()
 			{
 			age = 180;
-			numKids = 0;
 			pSOvu = 1;
 			pDOvu = 0;
 			pLb = 0; //need values from bio squad
@@ -43,9 +43,11 @@ public class Woman {
 	//tells if mother has died of natural causes
 	public void isMommyDead()
 	{
-		int rn = rand.nextInt(10000) + 1;
+		int rn = rand.nextInt(10000);
 		if (rn<25)
 			isDead=true;
+		else
+			age++;
 	}
 	
 	//checks if mom dies during single birth;
@@ -95,6 +97,7 @@ public class Woman {
 		
 	}
 	
+	
 	public void changeProb()
 	{
 		
@@ -103,5 +106,18 @@ public class Woman {
 	public boolean singleO()
 	{
 		return true;
-	}	
+	}
+	
+	public String toString()
+	{
+		
+		for (Child T : children)
+		{
+			if (T.isDead)
+				numDead++;
+			else
+				numLive++;
+		}
+		return"Woman ends :: " + age + " Number of Childern :: " + numLive + numDead + "\n Number of Children who made it to 15 YO :: " + numLive;
+	}
 }
