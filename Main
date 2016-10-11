@@ -4,10 +4,13 @@ public class Main {
 	public static void main(String[] args) {
 		Woman W = new Woman();
 				
-		for (int i = W.age; i<W.ageOfMeno; i++)
+		for (int i = W.age; i<=W.ageOfMeno; i++)
 		{
-			W.changeProb();
+			//W.changeProb();
 			W.isMommyDead();
+			if (!W.isPrego)
+				W.gotPregers();
+			
 			for (Child T : W.children)
 			{
 				if (T.age<180 && !T.isDead)
@@ -22,13 +25,13 @@ public class Main {
 				else
 				{}
 			}
-			if(W.isDead)
+			if(W.isDead) // put the thing code that runs through the rest of the children here or in any W.isDead ifs
 			{
 				break;
 			}
-			else if(W.gotPregers())
+			else if(W.isPrego)
 			{
-				if(W.singleO)//This is the only part that is right, change double o section
+				if(W.singleO())//This is the only part that is right, change double o section
 				{
 					Child C = new Child();
 					W.children.add(C);
@@ -36,20 +39,21 @@ public class Main {
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						W.children.get(W.children.size()).isFoetusDead();
+						W.children.get(W.children.size()-1).isFoetusDead();
+						if(W.isDead)
+							break;
+						else if (W.children.get(W.children.size()-1).isDead)
+							break;
 						if (foetusAge > 8)
 						{
 							W.childBirth();
-							W.children.get(W.children.size()).childBirth();
+							W.children.get(W.children.size()-1).childBirth();
+							break;
 						}
-						if(W.isDead)
-							break;
-						else if (W.children.get(W.children.size()).isDead)
-							break;
-						
+					
 						foetusAge++;
 						i++;
-						W.changeProb();
+						//W.changeProb();
 						}
 					}
 				else
@@ -60,7 +64,11 @@ public class Main {
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						if (C1.isDead && C2.isDead)
+						if (W.isDead)
+						{
+							break;
+						}
+						else if (C1.isDead && C2.isDead)
 						{
 							break;
 						}
@@ -78,25 +86,27 @@ public class Main {
 							C2.isChildDead();
 						}
 						
-						if (foetusAge > 8)
-							W.childBirth();
 						if(W.isDead)
 							break;
 						else if (C1.isDead && C2.isDead)
 							break;
+						if (foetusAge > 8)
+							W.childBirth();
 						
 						foetusAge++;
 						i++;
-						W.changeProb();
+						//W.changeProb();
 					}
 				}
 			}
+			W.age = i;
 		}
 		//at some point make a loop that will run all the children 
 		//who are alive and not 15 after the mom hits meno or dies.
+		//this will be donw in every W.isDead case before the break.
 		System.out.println(W);
+		for (Child prin : W.children)
+		{
+			System.out.println(prin.age);
+		}
 	}
-	
-	
-
-}
