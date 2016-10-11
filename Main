@@ -1,6 +1,27 @@
 //This is the main that runs the simulation
 public class Main {
 
+	public static void finishCLife(Woman W)
+	{
+		for (Child T : W.children)
+		{
+			while(T.age<180 && !T.isDead)
+			{
+				if (T.age<180 && !T.isDead)
+				{
+					T.age++;
+					T.isChildDead();
+				}
+				else if (T.age == 180 && !T.isDead)
+				{
+				T.endChild = 1;
+				}
+				else
+				{}
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		Woman W = new Woman();
 				
@@ -25,7 +46,7 @@ public class Main {
 				else
 				{}
 			}
-			if(W.isDead) // put the thing code that runs through the rest of the children here or in any W.isDead ifs
+			if(W.isDead) 
 			{
 				break;
 			}
@@ -48,9 +69,10 @@ public class Main {
 						{
 							W.childBirth();
 							W.children.get(W.children.size()-1).childBirth();
-							break;
 						}
-					
+						
+						if(W.isDead)
+							break;
 						foetusAge++;
 						i++;
 						//W.changeProb();
@@ -100,13 +122,17 @@ public class Main {
 				}
 			}
 			W.age = i;
+			
 		}
-		//at some point make a loop that will run all the children 
+		finishCLife(W);
+		// a loop that will run all the children 
 		//who are alive and not 15 after the mom hits meno or dies.
-		//this will be donw in every W.isDead case before the break.
 		System.out.println(W);
+		System.out.println("0 = alive \n1 = nat death 0-47 mo \n2 = nat death 48-180 mo \n"
+				+ "3 = dead as foetus \n4 = death during birth");
 		for (Child prin : W.children)
 		{
-			System.out.println(prin.age);
+			System.out.println(prin.age + " " + prin.deathBy);
 		}
 	}
+}
