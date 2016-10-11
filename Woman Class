@@ -1,6 +1,5 @@
 import java.util.Random;
 import java.util.ArrayList;
-
 //This is the class objectifying women.
 //It will show the amount of children the mother 
 //raises and the statistics surrounding that.
@@ -118,6 +117,6 @@ public class Woman {
 			else
 				numLive++;
 		}
-		return"Woman ends :: " + age + " Number of Childern :: " + numLive + numDead + "\n Number of Children who made it to 15 YO :: " + numLive;
+		return"Woman ends :: " + age + " Number of Possible Childern :: " + (numLive + numDead) + "\n Number of Children who made it to 15 YO :: " + numLive;
 	}
 }
