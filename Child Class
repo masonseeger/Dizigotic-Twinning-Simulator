@@ -6,7 +6,7 @@ double pOfDeath;
 int endChild;
 boolean isDead;
 int deathBy;
-
+int pregnancyNum;
 Random rand = new Random();
 
 public Child()
@@ -14,6 +14,8 @@ public Child()
 	age = 0;
 	endChild = 0;
 	isDead = false;
+	deathBy = 0;
+	
 }
 
 //Checks monthly whether the child dies
@@ -26,10 +28,10 @@ public void isChildDead()
 	}
 	else
 		{
-		int rn = rand.nextInt(1000) + 1;
-		if (age >= 0 && age < 48)
+		int rn = rand.nextInt(10000) + 1;
+		if (age >= 0 && age <= 48)
 		{
-			if (rn < 160)
+			if (rn < 34)
 			{
 				isDead = true;
 				deathBy = 1;
@@ -40,11 +42,13 @@ public void isChildDead()
 			}
 		}
 	
-		else if (age >= 48 && age <= 180)
+		else if (age > 48 && age < 180)
 		{
-			if (rn < 13)
+			if (rn <10)
+			{
 				isDead = true;
 				deathBy = 2;
+			}
 		}
 			else
 			{
@@ -54,27 +58,37 @@ public void isChildDead()
 	}
 
 //checks to see if the foetus spontaniously aborts
-public void isFoetusDead()
+public void isFoetusDead(int age)
 {
-	int rnd = rand.nextInt(100)+1;
-	if (rnd<15 )
+	int rnd = rand.nextInt(1000)+1;
+	if (age < 4)
 	{
-		deathBy = 3;
-		isDead=true;
+		if (rnd<75)
+		{
+			isDead = true;
+			deathBy = 3;
+		}
 	}
-		
-	
-	
+	else
+	{
+		if (rand.nextInt(1000)+1< 25 )
+		{
+			isDead = true;
+			deathBy = 4;
+		}
+	}
 }
 
 //Checks if the child survived the birthing process
 //Changes isDead if the child dies
-public void childBirth()
+public void childBirth(int a)
 {
-	int rn = rand.nextInt(100) + 1;
-	if (rn < 20)
+	int rn = rand.nextInt(10000) + 1;
+	double lim =(.33 * Math.pow(1, (a/12)-15))*(10000);
+	
+	if (rn > lim)
 	{
-		deathBy = 4;
+		deathBy = 5;
 		isDead = true;
 	}
 }
