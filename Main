@@ -1,8 +1,12 @@
-//This is the main that runs the simulation
+import java.util.ArrayList;
+import java.io.IOException;
 public class Main {
 
 	public static void finishCLife(Woman W)
 	{
+		FileDriver hi = new FileDriver();
+		hi.cvsDriver("ovData.csv");
+		
 		for (Child T : W.children)
 		{
 			while(T.age<180 && !T.isDead)
@@ -22,30 +26,20 @@ public class Main {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
+		//counter doubling values for number of kids reaching 15
+		FileDriver DubO = new FileDriver();
+		DubO.cvsDriver("ovData.csv");
+		ArrayList<Woman> totalWomen = new ArrayList<Woman>();
+	for(int k = 0; k<10;k++)
+	{
 		Woman W = new Woman();
-				
 		for (int i = W.age; i<=W.ageOfMeno; i++)
 		{
-			//W.changeProb();
 			W.isMommyDead();
 			if (!W.isPrego)
 				W.gotPregers();
 			
-			for (Child T : W.children)
-			{
-				if (T.age<180 && !T.isDead)
-				{
-				T.age++;
-				T.isChildDead();
-				}
-				else if (T.age == 180 && !T.isDead)
-				{
-					T.endChild = 1;
-				}
-				else
-				{}
-			}
 			if(W.isDead) 
 			{
 				break;
@@ -56,68 +50,129 @@ public class Main {
 				{
 					Child C = new Child();
 					W.children.add(C);
+					W.children.get(W.children.size()-1).pregnancyNum = W.pregNum;
 					int foetusAge = 0;
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						W.children.get(W.children.size()-1).isFoetusDead();
-						if(W.isDead)
+						W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
+						if(W.isDead)//if statement for when woman is pregnant and dies
+						{
+							C.isDead = true;
 							break;
+						}
 						else if (W.children.get(W.children.size()-1).isDead)
+						{
+							W.isPrego = false;
 							break;
+						}
 						if (foetusAge > 8)
 						{
 							W.childBirth();
-							W.children.get(W.children.size()-1).childBirth();
+							W.children.get(W.children.size()-1).childBirth(i);
 						}
 						
-						if(W.isDead)
+						if(W.isDead || C.isDead)
+						{
+							W.isPrego = false;
 							break;
+						}
 						foetusAge++;
 						i++;
-						//W.changeProb();
 						}
 					}
 				else
 				{
 					Child C1 = new Child();
 					Child C2 = new Child();
+					W.children.add(C1);
+					W.children.add(C2);
+					W.children.get(W.children.size()-1).pregnancyNum = W.pregNum;
+					W.children.get(W.children.size()-2).pregnancyNum = W.pregNum;
 					int foetusAge = 0;
 					while(W.isPrego)
 					{
 						W.isMommyDead();
+						W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
+						W.children.get(W.children.size()-2).isFoetusDead(foetusAge);
 						if (W.isDead)
 						{
+							W.children.get(W.children.size()-1).isDead = true;
+							W.children.get(W.children.size()-2).isDead = true;
+							if (foetusAge < 4)
+							{
+								W.children.get(W.children.size()-1).deathBy = 3;
+								W.children.get(W.children.size()-2).deathBy = 3;
+							}
+							else 
+							{
+								W.children.get(W.children.size()-1).deathBy = 4;
+								W.children.get(W.children.size()-2).deathBy = 4;
+							}
 							break;
 						}
 						else if (C1.isDead && C2.isDead)
 						{
+							W.isPrego = false;
 							break;
 						}
 						else if(C1.isDead)
 						{
-							C2.isChildDead();
+							W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
 						}
 						else if (C2.isDead)
 						{
-							C1.isChildDead();
+							W.children.get(W.children.size()-2).isFoetusDead(foetusAge);
 						}
 						else
 						{
-							C1.isChildDead();
-							C2.isChildDead();
+							W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
+							W.children.get(W.children.size()-2).isFoetusDead(foetusAge);
 						}
 						
 						if(W.isDead)
+						{
+							W.children.get(W.children.size()-1).isDead = true;
+							W.children.get(W.children.size()-2).isDead = true;
+							if (foetusAge < 4)
+							{
+								W.children.get(W.children.size()-1).deathBy = 3;
+								W.children.get(W.children.size()-2).deathBy = 3;
+							}
+							else
+							{
+								W.children.get(W.children.size()-1).deathBy = 4;
+								W.children.get(W.children.size()-2).deathBy = 4;
+							}
 							break;
+						}
 						else if (C1.isDead && C2.isDead)
+						{
+							
+							if (foetusAge < 4)
+							{
+								W.children.get(W.children.size()-1).deathBy = 3;
+								W.children.get(W.children.size()-2).deathBy = 3;
+							}
+							else
+							{
+								W.children.get(W.children.size()-1).deathBy = 4;
+								W.children.get(W.children.size()-2).deathBy = 4;
+							}
+							W.isPrego = false;
 							break;
+						}
 						if (foetusAge > 8)
+						{
 							W.childBirth();
+							if (!W.children.get(W.children.size()-1).isDead)
+							W.children.get(W.children.size()-1).childBirth(i);
+							if (!W.children.get(W.children.size()-2).isDead)
+							W.children.get(W.children.size()-2).childBirth(i);
+						}	
 						
 						foetusAge++;
 						i++;
-						//W.changeProb();
 					}
 				}
 			}
@@ -127,12 +182,33 @@ public class Main {
 		finishCLife(W);
 		// a loop that will run all the children 
 		//who are alive and not 15 after the mom hits meno or dies.
-		System.out.println(W);
-		System.out.println("0 = alive \n1 = nat death 0-47 mo \n2 = nat death 48-180 mo \n"
-				+ "3 = dead as foetus \n4 = death during birth");
-		for (Child prin : W.children)
-		{
-			System.out.println(prin.age + " " + prin.deathBy);
+		
+		totalWomen.add(W);
 		}
+	
+		String temp = "test1.csv";
+		WriteFile data = new WriteFile(temp);
+		
+		//data.writeToFile("0 = alive \n1 = nat death 0-47 mo \n2 = nat death 48-180 mo \n"
+				//	+ "3 = miscarriage \n4 = stillborn \n5 = death during birth");
+		int t = 1;
+		for (Woman wo : totalWomen)
+		{
+			wo.childCt();
+			//data.writeToFile("This is Woman " + t);
+			System.out.println("This is Woman " + t);
+			//data.writeToFile(wo.toString());
+			System.out.println(wo);
+			for (Child prin : wo.children)
+			{
+				System.out.println(prin.pregnancyNum + " " +prin.age + " " + prin.deathBy);
+				//data.writeToFile(prin.age + "," + prin.deathBy);
+			}
+			t++;
+		}
+		FileDriver hi = new FileDriver();
+		hi.cvsDriver("test1.csv");
 	}
+	//start copying data from graph data file
+	//
 }
