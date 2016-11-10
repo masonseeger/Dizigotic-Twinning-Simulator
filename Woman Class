@@ -20,7 +20,9 @@ public class Woman {
 	boolean isDead;
 	boolean singleO;
 	boolean doubleO;
+	int pregNum;
 	
+	public FileDriver dubO = new FileDriver();
 	public Woman()
 			{
 			age = 180;
@@ -33,18 +35,15 @@ public class Woman {
 			isDead = false;
 			}
 	
-	//used to track time in months, might switch for nested loops idk
-	public void Timer ()
-	{
-		
-	}
-
 	//tells if mother has died of natural causes
 	public void isMommyDead()
 	{
 		int rn = rand.nextInt(10000);
 		if (rn<25)
-			isDead=true;
+		{
+		isDead=true;
+		//childCt();
+		}
 		else
 			age++;
 	}
@@ -54,7 +53,11 @@ public class Woman {
 	{
 		int rn = rand.nextInt(1000)+1;
 		if (rn<BP)
-		isDead = true;
+		{
+			
+			isDead = true;
+		}
+		
 		
 	
 	}
@@ -64,8 +67,9 @@ public class Woman {
 	{
 		int rn = rand.nextInt(1000)+1;
 		if(rn<BP)
+		{
 			isDead=true;
-	
+		}
 	}
 	
 	//this method runs childbirth and the chance of the mother or child dying
@@ -86,9 +90,10 @@ public class Woman {
 	{
 		int test = rand.nextInt(100) + 1;
 		
-		if (test <30)
+		if (test >30)
 			{
 			isPrego = true;
+			pregNum++;
 			return true;
 			}
 		else
@@ -96,6 +101,16 @@ public class Woman {
 		
 	}
 	
+	public void childCt() // method counts the number of children who lived to age 15 and those who died
+	{
+		for (Child T : children)
+		{
+			if (T.isDead)
+				numDead++;
+			else
+				numLive++;
+		}
+	}
 	
 	public void changeProb()
 	{
@@ -104,19 +119,13 @@ public class Woman {
 	//need to change to void and make one for doubleO when we get the data
 	public boolean singleO()
 	{
-		return true;
+		return false;
 	}
 	
 	public String toString()
 	{
 		
-		for (Child T : children)
-		{
-			if (T.isDead)
-				numDead++;
-			else
-				numLive++;
-		}
+		
 		return"Woman ends :: " + age + " Number of Possible Childern :: " + (numLive + numDead) + "\n Number of Children who made it to 15 YO :: " + numLive;
 	}
 }
