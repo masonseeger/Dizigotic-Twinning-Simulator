@@ -21,8 +21,12 @@ public class Woman {
 	boolean singleO;
 	boolean doubleO;
 	int pregNum;
-	
-	public FileDriver dubO = new FileDriver();
+	int totalBabbies;
+	int actualCrotchDemons;
+	int notFoetusBabbie;
+	double dubOChance[];
+	boolean switchOv = false;
+	int flipSwitch = 0;
 	public Woman()
 			{
 			age = 180;
@@ -48,6 +52,10 @@ public class Woman {
 			age++;
 	}
 	
+	public void setDoubleOArray(double a[])
+	{
+		dubOChance = a;
+	}
 	//checks if mom dies during single birth;
 	public void isMommyDeadS(int BP)
 	{
@@ -57,9 +65,6 @@ public class Woman {
 			
 			isDead = true;
 		}
-		
-		
-	
 	}
 	
 	//checks if moms dies during twin birth
@@ -80,8 +85,6 @@ public class Woman {
 			isMommyDeadS(8);
 		else
 			isMommyDeadD(33);
-		
-		
 	}
 	
 	//add chance of prob of single and double ovulation into the
@@ -106,20 +109,52 @@ public class Woman {
 		for (Child T : children)
 		{
 			if (T.isDead)
+			{
 				numDead++;
-			else
+			totalBabbies++;
+			if (T.age>0)
+				notFoetusBabbie++;
+			}	
+			else	
+			{
 				numLive++;
+			totalBabbies++;
+			actualCrotchDemons++;
+			notFoetusBabbie++;
+			}
 		}
 	}
-	
-	public void changeProb()
+	//changes the probablility of insemination of women using age
+	public void changeProb(int cAge)
 	{
-		
+		pDOvu = dubOChance[(cAge/12)-15];
 	}
 	//need to change to void and make one for doubleO when we get the data
 	public boolean singleO()
 	{
+		if (!switchOv)
+		{
+		int test = rand.nextInt(1000000)+1;
+		if(test>pDOvu*1000000)
+			return true;
 		return false;
+		}
+		else
+		{
+			if (flipSwitch == 0)
+			{
+				int test = rand.nextInt(1000000)+1;
+				if(test>pDOvu*1000000)
+					return true;
+				else
+					flipSwitch = 1;
+				return false;
+			}
+			else
+				return false;
+			
+		}
+		
 	}
 	
 	public String toString()
