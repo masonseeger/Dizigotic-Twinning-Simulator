@@ -1,11 +1,30 @@
 import java.util.ArrayList;
 import java.io.IOException;
 public class Main {
+public static String Cstring[];
+public static double Cdouble[];
+public static int total;
+public static int actual;
+public static int totalBirthed;
 
-	public static void finishCLife(Woman W)
+//make sure the dumb csv file read in doesn't have E notation
+
+	public static void getDoubleO()
 	{
 		FileDriver hi = new FileDriver();
-		hi.cvsDriver("ovData.csv");
+		Cstring = hi.cvsDriver("ovData.csv");
+		Cdouble = new double[Cstring.length];
+		for(int i = 0; i <Cstring.length-1; i++)
+		{
+			
+			Cdouble[i] = Double.parseDouble(Cstring[i]);
+			
+		}
+		
+	}
+	public static void finishCLife(Woman W)
+	{
+		
 		
 		for (Child T : W.children)
 		{
@@ -28,12 +47,12 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException{
 		//counter doubling values for number of kids reaching 15
-		FileDriver DubO = new FileDriver();
-		DubO.cvsDriver("ovData.csv");
+		getDoubleO();
 		ArrayList<Woman> totalWomen = new ArrayList<Woman>();
-	for(int k = 0; k<10;k++)
+	for(int k = 0; k<10000;k++)
 	{
 		Woman W = new Woman();
+		W.setDoubleOArray(Cdouble);
 		for (int i = W.age; i<=W.ageOfMeno; i++)
 		{
 			W.isMommyDead();
@@ -46,7 +65,7 @@ public class Main {
 			}
 			else if(W.isPrego)
 			{
-				if(W.singleO())//This is the only part that is right, change double o section
+				if(W.singleO())
 				{
 					Child C = new Child();
 					W.children.add(C);
@@ -55,7 +74,7 @@ public class Main {
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
+						W.children.get(W.children.size()-1).isFoetusDead(foetusAge, i);
 						if(W.isDead)//if statement for when woman is pregnant and dies
 						{
 							C.isDead = true;
@@ -79,6 +98,7 @@ public class Main {
 						}
 						foetusAge++;
 						i++;
+						W.changeProb(i);
 						}
 					}
 				else
@@ -93,8 +113,6 @@ public class Main {
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
-						W.children.get(W.children.size()-2).isFoetusDead(foetusAge);
 						if (W.isDead)
 						{
 							W.children.get(W.children.size()-1).isDead = true;
@@ -118,16 +136,16 @@ public class Main {
 						}
 						else if(C1.isDead)
 						{
-							W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
+							W.children.get(W.children.size()-1).isFoetusDead(foetusAge, i);
 						}
 						else if (C2.isDead)
 						{
-							W.children.get(W.children.size()-2).isFoetusDead(foetusAge);
+							W.children.get(W.children.size()-2).isFoetusDead(foetusAge,i);
 						}
 						else
 						{
-							W.children.get(W.children.size()-1).isFoetusDead(foetusAge);
-							W.children.get(W.children.size()-2).isFoetusDead(foetusAge);
+							W.children.get(W.children.size()-1).isFoetusDead(foetusAge,i);
+							W.children.get(W.children.size()-2).isFoetusDead(foetusAge,i);
 						}
 						
 						if(W.isDead)
@@ -173,6 +191,7 @@ public class Main {
 						
 						foetusAge++;
 						i++;
+						W.changeProb(i);
 					}
 				}
 			}
@@ -195,20 +214,27 @@ public class Main {
 		for (Woman wo : totalWomen)
 		{
 			wo.childCt();
+			total += wo.totalBabbies;
+			actual += wo.actualCrotchDemons;
+			totalBirthed += wo.notFoetusBabbie;
 			//data.writeToFile("This is Woman " + t);
 			System.out.println("This is Woman " + t);
 			//data.writeToFile(wo.toString());
 			System.out.println(wo);
 			for (Child prin : wo.children)
 			{
-				System.out.println(prin.pregnancyNum + " " +prin.age + " " + prin.deathBy);
+				System.out.println(prin.timeOB + " " +prin.pregnancyNum + " " +prin.age + " " + prin.deathBy);
 				//data.writeToFile(prin.age + "," + prin.deathBy);
 			}
 			t++;
 		}
 		FileDriver hi = new FileDriver();
 		hi.cvsDriver("test1.csv");
+		System.out.println("total Babies : " + total + "\nbabies who lived to 15 : " + actual
+				+ "\nnumber of children birthed : " + totalBirthed +
+				"\npercent of eggs fertilized who made it to 15 YO : " + (double)((double)actual/(double)total) 
+			+	"\npercent of children birthed (live or dead) who made it to 15 YO : " + (double)((double)actual/(double)totalBirthed));
 	}
-	//start copying data from graph data file
-	//
+	
+	
 }
