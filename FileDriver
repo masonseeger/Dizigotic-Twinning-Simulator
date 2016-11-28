@@ -1,0 +1,53 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class FileDriver {
+
+    public String[] cvsDriver(String dFile) {
+
+        String csvFile = dFile;
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        String[] data = new String[36] ;
+        int i =0;
+        
+        
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                 //data = line.split(cvsSplitBy);
+            	data[i] = line;
+                 i++;
+                
+
+               // System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
+                //System.out.println(data[0]);
+            }
+            return data;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+          
+        }
+		return null;
+        
+    }
+
+}
