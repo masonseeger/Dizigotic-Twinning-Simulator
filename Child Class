@@ -1,3 +1,4 @@
+
 import java.util.Random;
 
 public class Child {
@@ -8,6 +9,7 @@ boolean isDead;
 int deathBy;
 int pregnancyNum;
 int timeOB;
+boolean isTwin;
 Random rand = new Random();
 
 public Child()
@@ -27,15 +29,40 @@ public void isChildDead()
 	{
 		
 	}
-	else
+	//twin births
+	else if (isTwin)
 		{
 		int rn = rand.nextInt(10000) + 1;
-		if (age >= 0 && age <= 48)
+		if (age < 1)
 		{
-			if (rn < 34)
+			if (rand.nextInt(100)+1 < 43)
 			{
 				isDead = true;
-				deathBy = 1;
+				deathBy = 2;
+			}
+			else
+			{
+				age++;
+			}
+		}
+		else if (age >= 1 && age < 12)
+		{
+			if (rand.nextInt(100)+1 < 16)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+			else
+			{
+				age++;
+			}
+		}//not finished updating variables
+		else if (age >= 12 && age < 48)
+		{
+			if (rand.nextInt(100)+1 < 16)
+			{
+				isDead = true;
+				deathBy = 2;
 			}
 			else 
 			{
@@ -43,9 +70,9 @@ public void isChildDead()
 			}
 		}
 	
-		else if (age > 48 && age < 180)
+		else if (age >= 48 && age < 180)
 		{
-			if (rn <10)
+			if (rand.nextInt(1000)+1 < 13)
 			{
 				isDead = true;
 				deathBy = 2;
@@ -56,13 +83,66 @@ public void isChildDead()
 				age++;
 			}
 		}
+	else // singleton births
+	{
+		int rn = rand.nextInt(10000) + 1;
+		if (age < 1)
+		{
+			if (rand.nextInt(100)+1 < 6)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+			else
+			{
+				age++;
+			}
+		}
+		else if (age >= 1 && age < 12)
+		{
+			if (rand.nextInt(1000)+1 < 139)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+			else
+			{
+				age++;
+			}
+		}//not finished updating variables
+		else if (age >= 12 && age < 48)
+		{
+			if (rand.nextInt(1000)+1 < 205)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+			else 
+			{
+				age++;
+			}
+		}
+	
+		else if (age >= 48 && age < 180)
+		{
+			if (rand.nextInt(1000)+1 < 27)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+		}
+			else
+			{
+				age++;
+			}
+	}
 	}
 
 //checks to see the state of the foetus 
 public void isFoetusDead(int a, int wAge)
 {
 	//actually getting pregnant
-	double lim = ((.30 * Math.pow(.88, (wAge/12)-15))*(10000));
+	/*double lim = ((.30 * Math.pow(.88, (wAge/12)-15))*(10000));
 	if(a == 0 && (60-lim) >rand.nextInt(100)+1)
 	{
 		System.out.println(lim);
@@ -77,12 +157,19 @@ public void isFoetusDead(int a, int wAge)
 		isDead = true;
 		deathBy = 4;
 		}
-	}
+	}*/
+	
+	
 }
 
 //gives the date of the child's birth
 public void childBirth(int a)
 {
+	if ((rand.nextInt(100)+1 >30) )
+	{
+	isDead = true;
+	deathBy = 4;
+	}
 		timeOB = a;
 }
 
