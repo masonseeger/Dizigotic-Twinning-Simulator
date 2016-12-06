@@ -21,12 +21,18 @@ public class Woman {
 	boolean singleO;
 	boolean doubleO;
 	int pregNum;
-	int totalBabbies;
-	int actualCrotchDemons;
-	int notFoetusBabbie;
+	int totalBabbies; // all eggs that are successfully fertilized
+	int actualCrotchDemons; // all children birthed that lived to the age of 15
+	int notFoetusBabbie; // all children who were birthed
 	double dubOChance[];
 	boolean switchOv = false;
 	int flipSwitch = 0;
+	int twinCt = 0;
+	double iBInterval = 0;
+	Child help = new Child();
+	int totalTwins;
+	int TypeofDeath = 0;
+	
 	public Woman()
 			{
 			age = 180;
@@ -46,7 +52,7 @@ public class Woman {
 		if (rn<25)
 		{
 		isDead=true;
-		//childCt();
+		TypeofDeath = 1;
 		}
 		else
 			age++;
@@ -62,7 +68,7 @@ public class Woman {
 		int rn = rand.nextInt(1000)+1;
 		if (rn<BP)
 		{
-			
+			TypeofDeath = 2;
 			isDead = true;
 		}
 	}
@@ -73,6 +79,7 @@ public class Woman {
 		int rn = rand.nextInt(1000)+1;
 		if(rn<BP)
 		{
+			TypeofDeath = 2;
 			isDead=true;
 		}
 	}
@@ -84,7 +91,7 @@ public class Woman {
 		if (singleO)
 			isMommyDeadS(8);
 		else
-			isMommyDeadD(33);
+			isMommyDeadD(30);
 	}
 	
 	//add chance of prob of single and double ovulation into the
@@ -110,18 +117,36 @@ public class Woman {
 		{
 			if (T.isDead)
 			{
-				numDead++;
+				if(T.isTwin)
+				{
+					totalTwins++;
+				}
+					numDead++;
 			totalBabbies++;
 			if (T.age>0)
 				notFoetusBabbie++;
 			}	
 			else	
 			{
+				if(T.isTwin)
+				{
+					totalTwins++;
+				}
+					if (help == null)
+				{
+					help = T;
+				}
+				else
+				{
+					iBInterval +=  T.timeOB - help.timeOB;
+					help = T;
+				}
 				numLive++;
 			totalBabbies++;
 			actualCrotchDemons++;
 			notFoetusBabbie++;
 			}
+			
 		}
 	}
 	//changes the probablility of insemination of women using age
@@ -129,10 +154,10 @@ public class Woman {
 	{
 		pDOvu = dubOChance[(cAge/12)-15];
 	}
-	//need to change to void and make one for doubleO when we get the data
+	
 	public boolean singleO()
 	{
-		if (!switchOv)
+		/*if (!switchOv)
 		{
 		int test = rand.nextInt(1000000)+1;
 		if(test>pDOvu*1000000)
@@ -153,7 +178,9 @@ public class Woman {
 			else
 				return false;
 			
-		}
+		}*/
+		
+		return false;
 		
 	}
 	
