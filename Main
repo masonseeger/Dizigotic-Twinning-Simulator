@@ -4,8 +4,13 @@ public class Main {
 public static String Cstring[];
 public static double Cdouble[];
 public static int total;
+public static int totalSurvivesofBirth;
+public static int totalSurvives;
 public static int actual;
+public static int totalTwinsBirthed;
 public static int totalBirthed;
+public static double interBirth;
+public static double interBirthRate;
 
 //make sure the dumb csv file read in doesn't have E notation
 
@@ -69,7 +74,9 @@ public static int totalBirthed;
 				{
 					Child C = new Child();
 					W.children.add(C);
+					W.singleO = true;
 					W.children.get(W.children.size()-1).pregnancyNum = W.pregNum;
+					W.children.get(W.children.size()-1).isTwin = false;
 					int foetusAge = 0;
 					while(W.isPrego)
 					{
@@ -105,10 +112,13 @@ public static int totalBirthed;
 				{
 					Child C1 = new Child();
 					Child C2 = new Child();
+					W.singleO = false;
 					W.children.add(C1);
 					W.children.add(C2);
 					W.children.get(W.children.size()-1).pregnancyNum = W.pregNum;
 					W.children.get(W.children.size()-2).pregnancyNum = W.pregNum;
+					W.children.get(W.children.size()-1).isTwin = true;
+					W.children.get(W.children.size()-2).isTwin = true;
 					int foetusAge = 0;
 					while(W.isPrego)
 					{
@@ -211,12 +221,31 @@ public static int totalBirthed;
 		//data.writeToFile("0 = alive \n1 = nat death 0-47 mo \n2 = nat death 48-180 mo \n"
 				//	+ "3 = miscarriage \n4 = stillborn \n5 = death during birth");
 		int t = 1;
+		int momsDead=0;
 		for (Woman wo : totalWomen)
 		{
 			wo.childCt();
-			total += wo.totalBabbies;
-			actual += wo.actualCrotchDemons;
-			totalBirthed += wo.notFoetusBabbie;
+			if (wo.TypeofDeath == 1)
+			{
+				momsDead++;
+				totalSurvivesofBirth+=wo.pregNum;
+			}
+			else if (wo.TypeofDeath == 2)
+			{
+				totalSurvivesofBirth+=wo.pregNum-1;
+				momsDead++;
+			}
+			else
+			{
+			totalSurvives++;
+			totalSurvivesofBirth+=wo.pregNum;
+			}
+			totalTwinsBirthed += wo.totalTwins;
+			total += wo.totalBabbies; // total number of eggs successfully fertilized
+			actual += wo.actualCrotchDemons; // number of children birthed who lived to 15
+			totalBirthed += wo.notFoetusBabbie; // total number of children birthed
+			interBirth += wo.iBInterval; // the total time between all live births among all women in the simulation
+			interBirthRate = interBirth/totalBirthed; // interbirth interval of all women in sim
 			//data.writeToFile("This is Woman " + t);
 			System.out.println("This is Woman " + t);
 			//data.writeToFile(wo.toString());
@@ -233,7 +262,9 @@ public static int totalBirthed;
 		System.out.println("total Babies : " + total + "\nbabies who lived to 15 : " + actual
 				+ "\nnumber of children birthed : " + totalBirthed +
 				"\npercent of eggs fertilized who made it to 15 YO : " + (double)((double)actual/(double)total) 
-			+	"\npercent of children birthed (live or dead) who made it to 15 YO : " + (double)((double)actual/(double)totalBirthed));
+			+	"\npercent of children birthed (live or dead) who made it to 15 YO : " + (double)((double)actual/(double)totalBirthed)
+			+	"\ninterbirth interval:: " + interBirthRate + "\ntotal twins:: " + totalTwinsBirthed
+			+	"\ntotal births survived ::" +totalSurvivesofBirth + "\ntotal mother survival:: " + totalSurvives + " moms dead:: "+ momsDead);
 	}
 	
 	
