@@ -29,7 +29,7 @@ public void isChildDead()
 	{
 		
 	}
-	//twin births
+	//twin births you have to work on the steps for each of these, find a way to break up the percentages
 	else if (isTwin)
 		{
 		int rn = rand.nextInt(10000) + 1;
@@ -47,7 +47,7 @@ public void isChildDead()
 		}
 		else if (age >= 1 && age < 12)
 		{
-			if (rand.nextInt(100)+1 < 16)
+			if (rand.nextInt(1000)+1 > 985)
 			{
 				isDead = true;
 				deathBy = 2;
@@ -59,7 +59,7 @@ public void isChildDead()
 		}//not finished updating variables
 		else if (age >= 12 && age < 48)
 		{
-			if (rand.nextInt(100)+1 < 16)
+			if (rand.nextInt(1000)+1 > 995)
 			{
 				isDead = true;
 				deathBy = 2;
@@ -72,7 +72,7 @@ public void isChildDead()
 	
 		else if (age >= 48 && age < 180)
 		{
-			if (rand.nextInt(1000)+1 < 13)
+			if (rand.nextInt(100000)+1 > 99989)
 			{
 				isDead = true;
 				deathBy = 2;
@@ -100,7 +100,7 @@ public void isChildDead()
 		}
 		else if (age >= 1 && age < 12)
 		{
-			if (rand.nextInt(1000)+1 < 139)
+			if (rand.nextInt(1000)+1 > 987)
 			{
 				isDead = true;
 				deathBy = 2;
@@ -112,7 +112,7 @@ public void isChildDead()
 		}//not finished updating variables
 		else if (age >= 12 && age < 48)
 		{
-			if (rand.nextInt(1000)+1 < 205)
+			if (rand.nextInt(1000)+1 > 994)
 			{
 				isDead = true;
 				deathBy = 2;
@@ -125,7 +125,7 @@ public void isChildDead()
 	
 		else if (age >= 48 && age < 180)
 		{
-			if (rand.nextInt(1000)+1 < 27)
+			if (rand.nextInt(100000)+1 > 99979)
 			{
 				isDead = true;
 				deathBy = 2;
