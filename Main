@@ -14,6 +14,8 @@ public static int count2;
 public static int count3;
 public static int count4;
 public static int rcount;
+public static int twinBD;
+public static int singleBD;
 public static double interBirth;
 public static double interBirthRate;
 
@@ -273,6 +275,13 @@ public static double interBirthRate;
 			}
 			else if (wo.TypeofDeath == 2)
 			{
+				singleBD++;
+				totalSurvivesofBirth+=wo.pregNum-1;
+				momsDead++;
+			}
+			else if (wo.TypeofDeath == 3)
+			{
+				twinBD++;
 				totalSurvivesofBirth+=wo.pregNum-1;
 				momsDead++;
 			}
@@ -314,7 +323,9 @@ public static double interBirthRate;
 				"\ndt1/totalbirthed: " + (double)((double)count1/(double)rcount)
 				+ "\ndt2/(totalbirthed-dt1): " + (double)((double)count2/(double)(rcount -count1) )
 				+ "\ndt3/(totalbirthed-dt1-dt2): " + (double)((double)count3/(double)(rcount -count1-count2))
-				+ "\ndt4/(totalbirthed-dt1-dt2-dt3): " + (double)((double)count4/(double)(rcount -count1-count2-count3)));
+				+ "\ndt4/(totalbirthed-dt1-dt2-dt3): " + (double)((double)count4/(double)(rcount -count1-count2-count3))
+				+ "\n total deaths during twin births: " + twinBD 
+				+ "\n total deaths during singleton births: " + singleBD );
 	}
 	
 	
