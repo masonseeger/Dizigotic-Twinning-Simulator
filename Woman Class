@@ -1,205 +1,178 @@
+
 import java.util.Random;
-import java.util.ArrayList;
-//This is the class objectifying women.
-//It will show the amount of children the mother 
-//raises and the statistics surrounding that.
-public class Woman {
-	Random rand = new Random();
-	ArrayList<Child> children = new ArrayList<Child>();
-	int age;
-	double pSOvu;
-	double pDOvu;
-	double pLb;
-	double pSb;
-	int numDead;
-	int numLive;
-	int dt1;
-	int dt2;
-	int dt3;
-	int dt4;
-	double momNatDeath;
-	double momBirthDeath;
-	int ageOfMeno;
-	boolean isPrego;
-	boolean isDead;
-	boolean singleO;
-	boolean doubleO;
-	int pregNum;
-	int totalBabbies; // all eggs that are successfully fertilized
-	int actualCrotchDemons; // all children birthed that lived to the age of 15
-	int notFoetusBabbie; // all children who were birthed
-	double dubOChance[];
-	boolean switchOv = false;
-	int flipSwitch = 0;
-	int twinCt = 0;
-	double iBInterval = 0;
-	Child help = new Child();
-	int totalTwins;
-	int TypeofDeath = 0;
+
+public class Child {
+int age;
+double pOfDeath;
+int endChild;
+boolean isDead;
+int deathBy;
+int pregnancyNum;
+int timeOB;
+boolean isTwin;
+Random rand = new Random();
+
+public Child()
+{
+	age = 0;
+	endChild = 0;
+	isDead = false;
+	deathBy = 0;
 	
-	public Woman()
-			{
-			age = 180;
-			pSOvu = 1;
-			pDOvu = 0;
-			pLb = 0; //need values from bio squad
-			pSb = 1-pLb;
-			ageOfMeno = 600;
-			isPrego = false;
-			isDead = false;
-			}
-	
-	//tells if mother has died of natural causes
-	public void isMommyDead()
+}
+
+//Checks monthly whether the child dies
+//There are different mortality rates for different age groups
+public void isChildDead()
+{
+	;
+	if (isDead)
 	{
-		int rn = rand.nextInt(10000);
-		if (rn<25)
-		{
-		isDead=true;
-		TypeofDeath = 1;
-		}
-		else
-			age++;
-	}
-	
-	public void setDoubleOArray(double a[])
-	{
-		dubOChance = a;
-	}
-	//checks if mom dies during single birth;
-	public void isMommyDeadS(int BP)
-	{
-		int rn = rand.nextInt(1000)+1;
-		if (rn<BP)
-		{
-			TypeofDeath = 2;
-			isDead = true;
-		}
-	}
-	
-	//checks if moms dies during twin birth
-	public void isMommyDeadD(int BP)
-	{
-		int rn = rand.nextInt(1000)+1;
-		if(rn<BP)
-		{
-			TypeofDeath = 2;
-			isDead=true;
-		}
-	}
-	
-	//this method runs childbirth and the chance of the mother or child dying
-	public void childBirth()
-	{
-		isPrego = false;
-		if (singleO)
-			isMommyDeadS(8);
-		else
-			isMommyDeadD(30);
-	}
-	
-	//add chance of prob of single and double ovulation into the
-	//method as well as trying to add a child 
-	public boolean gotPregers()
-	{
-		int test = rand.nextInt(100) + 1;
-		
-		if (test >30)
-			{
-			isPrego = true;
-			pregNum++;
-			return true;
-			}
-		else
-			return false;
 		
 	}
-	
-	public void childCt() // method counts the number of children who lived to age 15 and those who died
-	{
-		for (Child T : children)
+	//twin births you have to work on the steps for each of these, find a way to break up the percentages
+	else if (isTwin)
 		{
-			if (T.isDead)
-			{
-				if(T.isTwin)
-				{
-					totalTwins++;
-				}
-					numDead++;
-			totalBabbies++;
-			if (T.age>=0)
-				notFoetusBabbie++;
-			if(T.deathBy==1)
-				dt1++;
-			else if (T.deathBy == 2)
-				dt2 ++;
-			else if (T.deathBy==3)
-				dt3++;
-			else
-				dt4++;
-			}	
-			else	
-			{
-				if(T.isTwin)
-				{
-					totalTwins++;
-				}
-					if (help == null)
-				{
-					help = T;
-				}
-				else
-				{
-					iBInterval +=  T.timeOB - help.timeOB;
-					help = T;
-				}
-				numLive++;
-			totalBabbies++;
-			actualCrotchDemons++;
-			notFoetusBabbie++;
-			}
-			
-		}
-	}
-	//changes the probablility of insemination of women using age
-	public void changeProb(int cAge)
-	{
-		pDOvu = dubOChance[(cAge/12)-15];
-	}
-	
-	public boolean singleO()
-	{
-		/*if (!switchOv)
+		int rn = rand.nextInt(10000) + 1;
+		if (age < 1)
 		{
-		int test = rand.nextInt(1000000)+1;
-		if(test>pDOvu*1000000)
-			return true;
-		return false;
-		}
-		else
-		{
-			if (flipSwitch == 0)
+			if (rand.nextInt(100)+1 < 43)
 			{
-				int test = rand.nextInt(1000000)+1;
-				if(test>pDOvu*1000000)
-					return true;
-				else
-					flipSwitch = 1;
-				return false;
+				isDead = true;
+				deathBy = 1;
 			}
 			else
-				return false;
-			
-		}*/
-		
-		return false;
-		
-	}
+			{
+				age++;
+			}
+		}
+		else if (age >= 1 && age < 12)
+		{
+			if (rand.nextInt(10000)+1 < 158)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+			else
+			{
+				age++;
+			}
+		}
+		else if (age >= 12 && age < 48)
+		{
+			if (rand.nextInt(1000)+1 < 5)
+			{
+				isDead = true;
+				deathBy = 3;
+			}
+			else 
+			{
+				age++;
+			}
+		}
 	
-	public String toString()
+		else if (age >= 48 && age < 180)
+		{
+			if (rand.nextInt(100000)+1 > 99989)
+			{
+				isDead = true;
+				deathBy = 4;
+			}
+		}
+			else
+			{
+				age++;
+			}
+		}
+	else // singleton births
 	{
-		
-		
-		return"Woman ends :: " + age + " Number of Possible Childern :: " + (numLive + numDead) + "\n Number of Children who made it to 15 YO :: " + numLive;
+		int rn = rand.nextInt(10000) + 1;
+		if (age < 1)
+		{
+			if (rand.nextInt(1000)+1 <= 68)
+			{
+				isDead = true;
+				deathBy = 1;
+			}
+			else
+			{
+				age++;
+			}
+		}
+		else if (age >= 1 && age < 12)
+		{
+			if (rand.nextInt(10000)+1 >= 9864)
+			{
+				isDead = true;
+				deathBy = 2;
+			}
+			else
+			{
+				age++;
+			}
+		}//not finished updating variables
+		else if (age >= 12 && age < 48)
+		{
+			if (rand.nextInt(10000000)+1 >= 9936477)
+			{
+				isDead = true;
+				deathBy = 3;
+			}
+			else 
+			{
+				age++;
+			}
+		}
+	
+		else if (age >= 48 && age < 180)
+		{
+			if (rand.nextInt(100000)+1 >= 99979)
+			{
+				isDead = true;
+				deathBy = 4;
+			}
+		}
+			else
+			{
+				age++;
+			}
 	}
+	}
+
+//checks to see the state of the foetus 
+public void isFoetusDead(int a, int wAge)
+{
+	//actually getting pregnant
+	/*double lim = ((.30 * Math.pow(.88, (wAge/12)-15))*(10000));
+	if(a == 0 && (60-lim) >rand.nextInt(100)+1)
+	{
+		System.out.println(lim);
+		isDead = true;
+		deathBy = 3;
+	}
+	//rest of the pregnancy
+	else
+	{
+		if ((rand.nextInt(10000)+1 >8917) )
+		{
+		isDead = true;
+		deathBy = 4;
+		}
+	}*/
+	
+	
+}
+
+//gives the date of the child's birth
+public void childBirth(int a)
+{
+	/*if ((rand.nextInt(100)+1 >30) )
+	{
+	isDead = true;
+	deathBy = 7;
+	}*/
+		timeOB = a;
+}
+
+
 }
