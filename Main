@@ -9,6 +9,11 @@ public static int totalSurvives;
 public static int actual;
 public static int totalTwinsBirthed;
 public static int totalBirthed;
+public static int count1;
+public static int count2;
+public static int count3;
+public static int count4;
+public static int rcount;
 public static double interBirth;
 public static double interBirthRate;
 
@@ -81,21 +86,35 @@ public static double interBirthRate;
 					while(W.isPrego)
 					{
 						W.isMommyDead();
-						W.children.get(W.children.size()-1).isFoetusDead(foetusAge, i);
+						//W.children.get(W.children.size()-1).isFoetusDead(foetusAge, i);
 						if(W.isDead)//if statement for when woman is pregnant and dies
 						{
 							C.isDead = true;
 							break;
 						}
-						else if (W.children.get(W.children.size()-1).isDead)
+						/*else if (W.children.get(W.children.size()-1).isDead)
 						{
 							W.isPrego = false;
 							break;
-						}
+						}*/
 						if (foetusAge > 8)
 						{
 							W.childBirth();
 							W.children.get(W.children.size()-1).childBirth(i);
+							while(W.children.get(W.children.size()-1).age<30 && !W.children.get(W.children.size()-1).isDead)
+							{
+																	
+											if (W.children.get(W.children.size()-1).age<=30 && !W.children.get(W.children.size()-1).isDead)
+											{
+												W.isMommyDead();
+												i++;
+												W.children.get(W.children.size()-1).isChildDead();
+											}
+											else
+											{
+											
+											}
+							}
 						}
 						
 						if(W.isDead || C.isDead)
@@ -105,6 +124,7 @@ public static double interBirthRate;
 						}
 						foetusAge++;
 						i++;
+						if(i<600)
 						W.changeProb(i);
 						}
 					}
@@ -127,7 +147,7 @@ public static double interBirthRate;
 						{
 							W.children.get(W.children.size()-1).isDead = true;
 							W.children.get(W.children.size()-2).isDead = true;
-							if (foetusAge < 4)
+							/*if (foetusAge < 4)
 							{
 								W.children.get(W.children.size()-1).deathBy = 3;
 								W.children.get(W.children.size()-2).deathBy = 3;
@@ -137,9 +157,9 @@ public static double interBirthRate;
 								W.children.get(W.children.size()-1).deathBy = 4;
 								W.children.get(W.children.size()-2).deathBy = 4;
 							}
-							break;
+							break;*/
 						}
-						else if (C1.isDead && C2.isDead)
+						/*else if (C1.isDead && C2.isDead)
 						{
 							W.isPrego = false;
 							break;
@@ -156,13 +176,13 @@ public static double interBirthRate;
 						{
 							W.children.get(W.children.size()-1).isFoetusDead(foetusAge,i);
 							W.children.get(W.children.size()-2).isFoetusDead(foetusAge,i);
-						}
+						}*/
 						
 						if(W.isDead)
 						{
 							W.children.get(W.children.size()-1).isDead = true;
 							W.children.get(W.children.size()-2).isDead = true;
-							if (foetusAge < 4)
+							/*if (foetusAge < 4)
 							{
 								W.children.get(W.children.size()-1).deathBy = 3;
 								W.children.get(W.children.size()-2).deathBy = 3;
@@ -188,7 +208,7 @@ public static double interBirthRate;
 								W.children.get(W.children.size()-2).deathBy = 4;
 							}
 							W.isPrego = false;
-							break;
+							break;*/
 						}
 						if (foetusAge > 8)
 						{
@@ -197,10 +217,31 @@ public static double interBirthRate;
 							W.children.get(W.children.size()-1).childBirth(i);
 							if (!W.children.get(W.children.size()-2).isDead)
 							W.children.get(W.children.size()-2).childBirth(i);
+							while(W.children.get(W.children.size()-1).age<30 && !W.children.get(W.children.size()-1).isDead || W.children.get(W.children.size()-2).age<30 && !W.children.get(W.children.size()-2).isDead)
+							{
+										if (W.children.get(W.children.size()-1).age<=30 && !W.children.get(W.children.size()-1).isDead)
+										{
+											W.children.get(W.children.size()-1).isChildDead();
+				
+										}
+										else
+										{
+																				}
+										if (W.children.get(W.children.size()-2).age<=30 && !W.children.get(W.children.size()-2).isDead)
+										{
+											W.children.get(W.children.size()-2).isChildDead();
+										}
+										else
+										{}
+										W.isMommyDead();
+										i++;
+									
+							}
 						}	
 						
 						foetusAge++;
 						i++;
+						if (i<600)
 						W.changeProb(i);
 					}
 				}
@@ -240,12 +281,17 @@ public static double interBirthRate;
 			totalSurvives++;
 			totalSurvivesofBirth+=wo.pregNum;
 			}
+			count1 += wo.dt1;
+			count2 += wo.dt2;
+			count3 += wo.dt3;
+			count4 += wo.dt4;
 			totalTwinsBirthed += wo.totalTwins;
 			total += wo.totalBabbies; // total number of eggs successfully fertilized
 			actual += wo.actualCrotchDemons; // number of children birthed who lived to 15
 			totalBirthed += wo.notFoetusBabbie; // total number of children birthed
 			interBirth += wo.iBInterval; // the total time between all live births among all women in the simulation
 			interBirthRate = interBirth/totalBirthed; // interbirth interval of all women in sim
+			rcount = totalBirthed;
 			//data.writeToFile("This is Woman " + t);
 			System.out.println("This is Woman " + t);
 			//data.writeToFile(wo.toString());
@@ -262,9 +308,13 @@ public static double interBirthRate;
 		System.out.println("total Babies : " + total + "\nbabies who lived to 15 : " + actual
 				+ "\nnumber of children birthed : " + totalBirthed +
 				"\npercent of eggs fertilized who made it to 15 YO : " + (double)((double)actual/(double)total) 
-			+	"\npercent of children birthed (live or dead) who made it to 15 YO : " + (double)((double)actual/(double)totalBirthed)
+			+	"\npercent of children birthed who made it to 15 YO : " + (double)((double)actual/(double)totalBirthed)
 			+	"\ninterbirth interval:: " + interBirthRate + "\ntotal twins:: " + totalTwinsBirthed
-			+	"\ntotal births survived ::" +totalSurvivesofBirth + "\ntotal mother survival:: " + totalSurvives + " moms dead:: "+ momsDead);
+			+	"\ntotal births survived ::" +totalSurvivesofBirth + "\ntotal mother survival:: " + totalSurvives + " moms dead:: "+ momsDead+
+				"\ndt1/totalbirthed: " + (double)((double)count1/(double)rcount)
+				+ "\ndt2/(totalbirthed-dt1): " + (double)((double)count2/(double)(rcount -count1) )
+				+ "\ndt3/(totalbirthed-dt1-dt2): " + (double)((double)count3/(double)(rcount -count1-count2))
+				+ "\ndt4/(totalbirthed-dt1-dt2-dt3): " + (double)((double)count4/(double)(rcount -count1-count2-count3)));
 	}
 	
 	
