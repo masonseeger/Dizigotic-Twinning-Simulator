@@ -13,6 +13,10 @@ public class Woman {
 	double pSb;
 	int numDead;
 	int numLive;
+	int dt1;
+	int dt2;
+	int dt3;
+	int dt4;
 	double momNatDeath;
 	double momBirthDeath;
 	int ageOfMeno;
@@ -123,8 +127,16 @@ public class Woman {
 				}
 					numDead++;
 			totalBabbies++;
-			if (T.age>0)
+			if (T.age>=0)
 				notFoetusBabbie++;
+			if(T.deathBy==1)
+				dt1++;
+			else if (T.deathBy == 2)
+				dt2 ++;
+			else if (T.deathBy==3)
+				dt3++;
+			else
+				dt4++;
 			}	
 			else	
 			{
